@@ -1,0 +1,17 @@
+image: archlinux
+packages:
+  - go
+sources:
+  - https://github.com/delthas/mastodirc
+secrets:
+  - 63d7a0ac-2635-4d42-9709-efcd2cf74858 # ssh deploy key
+tasks:
+  - build: |
+      cd mastodirc
+      go build -v ./cmd/mastodirc
+      go build -v ./cmd/mastodirc-init
+  - deploy: |
+      cd konni
+      ssh -p 2222 -o StrictHostKeyChecking=no -q user@delthas.fr 'mkdir -p /srv/http/blog/mastodirc/linux/'
+      scp -P 2222 -o StrictHostKeyChecking=no -q mastodirc user@delthas.fr:/srv/http/blog/mastodirc/linux/mastodirc
+      scp -P 2222 -o StrictHostKeyChecking=no -q mastodirc-init user@delthas.fr:/srv/http/blog/mastodirc/linux/mastodirc-init

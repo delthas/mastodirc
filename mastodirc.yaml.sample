@@ -1,0 +1,3 @@
+irc_server: example.com:+6697
+irc_nick: mastodirc
+irc_channel: "#mastodon"
